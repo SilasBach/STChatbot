@@ -73,7 +73,7 @@
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
 
-        "python.defaultInterpreterPath": "${workspaceFolder}/Backend/.venv/bin/python",
+        // "python.defaultInterpreterPath": "${workspaceFolder}/Backend/.venv/bin/python",
 
         "files.associations": {
           "*.css": "tailwindcss"
