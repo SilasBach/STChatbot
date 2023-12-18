@@ -21,32 +21,17 @@ WORKDIR /stchatbot
 # Copy backend files
 COPY ./backend /backend
 
-# Create a virtual environment in the backend directory
-RUN python3.11 -m venv /backend/venv
-
-# Activate the virtual environment
-ENV PATH="/backend/venv/bin:$PATH"
-
 # Install poetry in the virtual environment
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Add poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
 
-# Install backend dependencies
-RUN cd /backend \
-    && poetry install
-
 # Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
 # Copy frontend files
 COPY ./frontend /frontend
-
-# Install frontend dependencies
-RUN cd /frontend \
-    && npm install
 
 # Expose port 3000
 EXPOSE 3000

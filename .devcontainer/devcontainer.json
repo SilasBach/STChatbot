@@ -4,6 +4,7 @@
     "dockerfile": "Dockerfile",
     "context": ".."
   },
+  // "postCreateCommand": "/bin/bash ./.devcontainer/post_create.sh",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -73,7 +74,7 @@
           "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
 
-        "python.defaultInterpreterPath": "${workspaceFolder}/Backend/.venv/bin/python",
+        "python.defaultInterpreterPath": "${workspaceFolder}/backend/.venv/bin/python",
 
         "files.associations": {
           "*.css": "tailwindcss"
