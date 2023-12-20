@@ -10,6 +10,11 @@ python = "^3.10"
 datetime = "^5.4"
 fastapi = "^0.105.0"
 uvicorn = "^0.24.0.post1"
+pinecone-client = "^2.2.4"
+langchain = "^0.0.351"
+pypdf = "^3.17.3"
+sentence-transformers = "^2.2.2"
+replicate = "^0.22.0"
 
 
 [build-system]

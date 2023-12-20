@@ -1,15 +1,13 @@
 import os
-from typing import Optional, Union
+import sys
 
 import pinecone
-from fastapi import FastAPI, HTTPException
 from langchain.chains import ConversationalRetrievalChain
 from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import Replicate
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Pinecone
-from pydantic import BaseModel
 
 # Replicate API token and Pinecone API key
 os.environ["REPLICATE_API_TOKEN"] = "r8_e4hqHAr09jciwyXFy2jIdnsmcIaEKBU4FV5pr"
@@ -49,36 +47,13 @@ qa_chain = ConversationalRetrievalChain.from_llm(
     llm, vectordb.as_retriever(search_kwargs={"k": 2}), return_source_documents=True
 )
 
-# FastAPI app
-app = FastAPI()
-
-
-# Pydantic model for request body
-class Query(BaseModel):
-    question: str
-    chat_history: Optional[list] = []
-
-
-# Define the endpoint
-@app.post("/ask")
-async def ask(query: Query):
-    try:
-        # Process the question with Conversational Retrieval Chain
-        # Ensure that the question and chat history are passed correctly
-        result = qa_chain(
-            {"question": query.question, "chat_history": query.chat_history}
-        )
-        # Return the response
-        return {"answer": result["answer"]}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+# Start chatting with the chatbot
+chat_history = []
+while True:
+    query = input("Prompt: ")
+    if query.lower() in ["exit", "quit", "q"]:
+        print("Exiting")
+        sys.exit()
+    result = qa_chain({"question": query, "chat_history": chat_history})
+    print("Answer: " + result["answer"] + "\n")
+    chat_history.append((query, result["answer"]))
