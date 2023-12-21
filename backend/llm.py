@@ -46,14 +46,3 @@ llm = Replicate(
 qa_chain = ConversationalRetrievalChain.from_llm(
     llm, vectordb.as_retriever(search_kwargs={"k": 2}), return_source_documents=True
 )
-
-# Start chatting with the chatbot
-chat_history = []
-while True:
-    query = input("Prompt: ")
-    if query.lower() in ["exit", "quit", "q"]:
-        print("Exiting")
-        sys.exit()
-    result = qa_chain({"question": query, "chat_history": chat_history})
-    print("Answer: " + result["answer"] + "\n")
-    chat_history.append((query, result["answer"]))

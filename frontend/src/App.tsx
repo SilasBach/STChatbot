@@ -1,62 +1,52 @@
 import { useState } from 'react';
-import logo from './assets/images/logo.svg';
+import axios from 'axios';
 
-const App = () => {
-  const [count, setCount] = useState(0);
+const App: React.FC = () => {
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+
+  const askQuestion = async () => {
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/ask',
+        {
+          question: question,
+          chat_history: [],
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setAnswer(response.data.answer);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <div className="text-center selection:bg-green-900">
-      <header className="flex min-h-screen flex-col items-center justify-center bg-[#282c34] text-white">
-        <img
-          src={logo}
-          className="animate-speed h-60 motion-safe:animate-spin"
-          alt="logo"
+    <div className="flex h-screen flex-col items-center justify-center bg-gray-100">
+      <div className="rounded-md bg-white p-4 shadow-md">
+        <input
+          type="text"
+          className="w-64 rounded-md border border-gray-300 p-2"
+          placeholder="Ask a question..."
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
         />
-        <style>
-          {
-            '\
-            .animate-speed{\
-              animation-duration:20s;\
-            }\
-          '
-          }
-        </style>
-        <p className="bg-gradient-to-r from-emerald-300 to-sky-300 bg-clip-text text-5xl font-black text-transparent selection:bg-transparent">
-          Vite + React + Typescript + Tailwindcss
-        </p>
-        <p className="mt-3">
-          <button
-            type="button"
-            className="my-6 rounded bg-gray-300 px-2 py-2 text-[#282C34] transition-all hover:bg-gray-200"
-            onClick={() => setCount((count) => count + 1)}
-          >
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code className="text-[#8d96a7]">App.tsx</code> and save to test
-          HMR updates.
-        </p>
-        <p className="mt-3 flex gap-3 text-center text-[#8d96a7]">
-          <a
-            className="text-[#61dafb] transition-all hover:text-blue-400"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="text-[#61dafb] transition-all hover:text-blue-400"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+        <button
+          className="ml-2 mt-2 rounded-md bg-blue-500 p-2 text-white"
+          onClick={askQuestion}
+        >
+          Ask
+        </button>
+        {answer && (
+          <div className="mt-4 rounded-md bg-gray-200 p-2">
+            <p>{answer}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
