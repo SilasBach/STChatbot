@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
+import dots_loading from './assets/images/dots_loading.svg';
 
 const App: React.FC = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const askQuestion = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(
         'http://127.0.0.1:8000/ask',
@@ -23,6 +26,7 @@ const App: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   return (
@@ -41,11 +45,15 @@ const App: React.FC = () => {
         >
           Ask
         </button>
-        {answer && (
+        {loading ? (
+          <div className="mt-4 flex justify-center">
+            <img src={dots_loading} alt="Loading..." />
+          </div>
+        ) : answer ? (
           <div className="mt-4 rounded-md bg-gray-200 p-2">
             <p>{answer}</p>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
