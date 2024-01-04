@@ -21,7 +21,7 @@ WORKDIR /stchatbot
 # Copy backend files
 COPY ./backend /backend
 
-# Install poetry in the virtual environment
+# Install poetry
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Add poetry to PATH
