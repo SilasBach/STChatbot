@@ -24,7 +24,8 @@
         // AI and Productivity
         "github.copilot",
         "github.copilot-chat",
-        "njpwerner.autodocstring"
+        "njpwerner.autodocstring",
+        "mongodb.mongodb-vscode"
       ],
       "settings": {
         "[javascript]": {

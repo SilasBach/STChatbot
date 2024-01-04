@@ -15,6 +15,9 @@ langchain = "^0.0.351"
 pypdf = "^3.17.3"
 sentence-transformers = "^2.2.2"
 replicate = "^0.22.0"
+pymongo = "^4.6.1"
+motor = "^3.3.2"
+pydantic = {extras = ["email"], version = "^2.5.3"}
 
 
 [build-system]

@@ -1,10 +1,10 @@
-import os
-from typing import Optional, Union
+from typing import Optional
 
+from db import UserCollection, user_collection
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from llm import qa_chain
+from pydantic import BaseModel
 
 # FastAPI app
 app = FastAPI()
@@ -20,6 +20,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 # Pydantic model for request body
 class Query(BaseModel):
@@ -42,11 +43,11 @@ async def ask(query: Query):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.get("/users/", response_model=UserCollection, response_model_by_alias=False)
+async def list_users():
+    """
+    List all of the student data in the database.
 
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+    The response is unpaginated and limited to 1000 results.
+    """
+    return UserCollection(users=await user_collection.find().to_list(1000))
