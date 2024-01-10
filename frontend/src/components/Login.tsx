@@ -1,46 +1,56 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// TypeScript interface for the component's props
 interface LoginProps {
-  login: (userData: any) => void;
-  onLogin: (userData: { token: string }) => void;
+  login: (userData: any) => void; // Function to handle login (unused in this component)
+  onLogin: (userData: { token: string }) => void; // Function to handle successful login
 }
 
+// Login component definition
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  // State hooks for email and password
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // Hook for programmatic navigation
   const navigate = useNavigate();
 
+  // Function to handle navigation to the registration page
   const handleRegisterClick = () => {
-    navigate('/register'); // Navigate to the register page
+    navigate('/register'); // Redirects user to the register page
   };
 
+  // Function to handle form submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevents the default form submission behavior
 
     try {
+      // Sending a POST request to the server for authentication
       const response = await fetch('http://127.0.0.1:8000/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
-          username: email,
-          password: password,
+          username: email, // Sending email as username
+          password: password, // Sending password
         }),
       });
 
+      // Handling the server's response
       if (response.ok) {
+        // If authentication is successful
         const data = await response.json();
-        localStorage.setItem('token', data.access_token);
+        localStorage.setItem('token', data.access_token); // Store token in localStorage
         console.log('Login successful');
-        onLogin({ token: data.access_token }); // Use the renamed prop function
-        navigate('/gpt');
+        onLogin({ token: data.access_token }); // Invoke the onLogin prop function
+        navigate('/gpt'); // Navigate to the Gpt page
       } else {
-        // Handle login error
+        // If authentication fails
         console.error('Login failed');
       }
     } catch (error) {
+      // Handling any errors during the fetch request
       console.error('An error occurred during login:', error);
     }
   };

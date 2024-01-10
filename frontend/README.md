@@ -1,78 +1,59 @@
-<div align="center"><img src = "https://user-images.githubusercontent.com/31413093/197097625-5b3bd3cf-2bd6-4a3a-8059-a1fe9f28100b.svg" height="100px" alt="My Happy SVG"/></div>
+# README for InsurEase Frontend Application
 
-<h2 align="center">template-vite-react-ts-tailwind</h2>
+## Overview
 
-<div align="center">
-<a href="https://reactjs.org/"><image src="https://img.shields.io/static/v1?label=React&message=^18&style=for-the-badge&labelColor=FFFFFF&logo=react&color=61DAFB"/></a> <a href="https://www.typescriptlang.org/"><image src="https://img.shields.io/static/v1?label=TypeScript&message=^5&style=for-the-badge&labelColor=FFFFFF&logo=typescript&color=3178C6"/></a> <a href="https://www.typescriptlang.org/"><image src="https://img.shields.io/static/v1?label=Tailwind%20CSS&message=^3&style=for-the-badge&labelColor=FFFFFF&logo=tailwindcss&color=06B6D4"/></a> <a href="https://cn.vitejs.dev/"><image src="https://img.shields.io/static/v1?label=Vite&message=^4&style=for-the-badge&labelColor=FFFFFF&logo=vite&color=646CFF"/></a>
-</div>
+InsurEase is a cutting-edge chatbot application designed for insurance professionals. This README document outlines the structure and functionality of the frontend application, built with React, Vite, and Tailwind CSS. The application's frontend is based on royrao2333/template-vite-react-ts-tailwind, a template that integrates these technologies for efficient development.
 
-## Introduction
+## Prerequisites
 
-A starter [Vite](https://vitejs.dev/) template having:
+Before running the application, ensure you have the following installed:
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- Multiple eslint & prettier plugins installed
+- Node.js
+- npm (Node Package Manager)
 
-> **Note**
-> 
-> This code repository may occasionally update its dependency versions. If the dependency versions in the latest code do not meet your expectations, please go to [Tags](https://github.com/RoyRao2333/template-vite-react-ts-tailwind/tags) section to download a previous version of this template. I will display the dependencies used in each Tag, please choose the one you need.
-> 
-> 这个代码仓库可能会不定期更新其依赖包的版本。如果最新代码中依赖的版本不符合你的期望，请移步[Tags](https://github.com/RoyRao2333/template-vite-react-ts-tailwind/tags)下载之前的模板。每个Tag中使用的依赖都会展示在Tag详情中，请选择你需要的版本。
+## Installation
 
-> **Warning**
-> 
-> The latest code of this template has updated TypeScript to version 5.0+. If you need TypeScript 4.x, please use [this release](https://github.com/RoyRao2333/template-vite-react-ts-tailwind/releases/tag/release-2023.03.08).
-> 
-> 该模板的最新代码中，已经将TypeScript的版本更新到了5.0+。如果你需要TypeScript 4.x，请使用[这个版本](https://github.com/RoyRao2333/template-vite-react-ts-tailwind/releases/tag/release-2023.03.08)。
+1. Clone the repository from GitHub or download the source code.
+2. Navigate to the project directory in your terminal.
+3. Run `npm install` to install all the required dependencies.
 
-## Install
+## Project Structure
 
-> This project uses [node](http://nodejs.org) and a package manager ([npm](https://npmjs.com), [yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/)). Go check them out if you don't have them locally installed.
+Below is an overview of the key files in the project:
 
-Then you need a copy of this repository. You can [download](https://github.com/RoyRao2333/template-vite-react-ts-tailwind) a copy as zip but [degit](https://github.com/Rich-Harris/degit) is recommended.
+- `app.jsx`: The main application component. It sets up routing and global state management.
+- `gpt.jsx`: A component responsible for interacting with the GPT-based chatbot. It handles user queries and displays responses.
+- `login.jsx` & `register.tsx`: Components for handling user authentication, including login and registration forms.
+- `nav.tsx`: Navigation component that displays different options based on user authentication status.
 
-After you installed degit, please excute the following commandd:
+## Key Features
 
-```sh
-$ cd path-to-save-your-project
-$ degit royrao2333/template-vite-react-ts-tailwind your-project-name
-```
+### User Authentication
 
-After getting a copy of this repository, you can use your package manager to install dependecies:
+- Users can register a new account or log in to an existing one.
+- The application securely handles user credentials and authentication tokens.
 
-```sh
-$ cd path-to-your-project
-$ pnpm install
+### Chatbot Interaction
 
-# npm install
-# yarn install
-```
+- Users can interact with the GPT-based chatbot by submitting questions.
+- The application displays responses from the chatbot in a user-friendly format.
 
-## Usage
+### Responsive Design
 
-Let's run!
+- The application is styled with Tailwind CSS, ensuring a responsive and modern user interface.
 
-```sh
-$ pnpm run dev
+### Routing
 
-# npm run dev
-# yarn run dev
-```
+- React Router is used for navigation between different components like Login, Register, and the GPT chat interface.
 
-> We've already implemented some recommended configurations in ```.eslintrc.js```, ```.eslintignore```, ```.prettierrc.js``` and ```.prettierignore```. Feel free to edit them if you have your own preferences.
+## Running the Application
 
-## Related Efforts
+To start the application:
 
-- [Vite](https://github.com/vitejs/vite)
-- [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
+1. Run `npm run dev` in the terminal from the project directory.
+2. Open a web browser and navigate to `http://localhost:3000`.
 
-## Contributing
+## Environment Variables
 
-Feel free to dive in! [Open an issue](https://github.com/RoyRao2333/template-vite-react-ts-tailwind) or submit PRs.
+Ensure to set up the necessary environment variables (if any) for backend API endpoints and other configurations in a `.env` file.
 
-## License
-
-[MIT](LICENSE) © Roy Rao

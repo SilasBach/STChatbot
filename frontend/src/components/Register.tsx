@@ -1,28 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// TypeScript interface for component props
 interface RegisterProps {
-  onRegistration: (userData: { token: string }) => void;
+  onRegistration: (userData: { token: string }) => void; // Function to handle post-registration actions
 }
 
 const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
+  // State hooks for user inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [bureauAffiliation, setBureau] = useState('');
 
-  // Add other state variables as needed
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for programmatic navigation
 
+  // Function to navigate to the login page
   const handleRegisterClick = () => {
-    navigate('/login'); // Navigate to the register page
+    navigate('/login'); // Redirects user to the login page
   };
 
+  // Function to handle form submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevents default form submission behavior
 
     try {
-      // Registration request
+      // Sending a POST request to the server for user registration
       const registerResponse = await fetch('http://127.0.0.1:8000/users', {
         method: 'POST',
         headers: {
@@ -36,12 +39,13 @@ const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
         }),
       });
 
+      // Check if registration was successful
       if (!registerResponse.ok) {
         console.error('Registration failed');
         return; // Stop further execution in case of failure
       }
 
-      // Token request
+      // Retrieving token after successful registration
       const tokenResponse = await fetch('http://127.0.0.1:8000/token', {
         method: 'POST',
         headers: {
@@ -53,17 +57,20 @@ const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
         }),
       });
 
+      // Check if token retrieval was successful
       if (!tokenResponse.ok) {
         console.error('Token retrieval failed');
         return; // Stop further execution in case of failure
       }
 
+      // Handling the token after successful retrieval
       const data = await tokenResponse.json();
-      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('token', data.access_token); // Store token in localStorage
       console.log('Registration and token retrieval successful');
-      onRegistration({ token: data.access_token });
-      navigate('/gpt');
+      onRegistration({ token: data.access_token }); // Invoke onRegistration with the token
+      navigate('/gpt'); // Navigate to the Gpt page
     } catch (error) {
+      // Handle errors during the fetch process
       console.error('An error occurred:', error);
     }
   };
