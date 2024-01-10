@@ -15,7 +15,7 @@ pinecone.init(api_key="5477f64d-24e7-4fbc-95c4-a78b60095b35", environment="gcp-s
 
 # Specify your PDF files
 pdf_files = [
-    "top_danmark_bil.pdf",
+    "Retningslinjer.pdf",
 ]  # Add your PDF file paths here
 
 # Load and preprocess the PDF documents
