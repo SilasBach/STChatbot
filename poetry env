@@ -1,4 +1,0 @@
-cd backend 
-poetry env use 3.11
-
-reload window
