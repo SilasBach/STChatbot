@@ -12,8 +12,9 @@ RUN apt-get update && apt-get install -y \
 
 # Install Python 3.11
 RUN apt-get update && apt-get install -y \
-    && apt-get update \
-    && apt-get install -y python3.11 python3.11-venv python3.11-dev
+    python3.11 \
+    python3.11-venv \
+    python3.11-dev
 
 # Set the working directory
 WORKDIR /stchatbot
@@ -27,6 +28,10 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Add poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
 
+# Install backend dependencies
+WORKDIR /stchatbot/backend
+RUN poetry install --no-root
+
 # Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
@@ -34,5 +39,13 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
 # Copy frontend files
 COPY ./frontend /frontend
 
-# Expose port 3000
+# Install frontend dependencies
+WORKDIR /stchatbot/frontend
+RUN npm install
+
+# Expose port 3000 and 8000
 EXPOSE 3000
+EXPOSE 8000
+
+# Set the default working directory
+WORKDIR /stchatbot
