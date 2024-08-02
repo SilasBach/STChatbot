@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // TypeScript interface for the component's props
 interface LoginProps {
-  login: (userData: any) => void; // Function to handle login (unused in this component)
-  onLogin: (userData: { token: string }) => void; // Function to handle successful login
+  onLogin: (userData: { token: string; userId: string }) => void;
 }
 
 // Login component definition
@@ -43,7 +42,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         const data = await response.json();
         localStorage.setItem('token', data.access_token); // Store token in localStorage
         console.log('Login successful');
-        onLogin({ token: data.access_token }); // Invoke the onLogin prop function
+        onLogin({ token: data.access_token, userId: data.user_id }); // Invoke the onLogin prop function
         navigate('/gpt'); // Navigate to the Gpt page
       } else {
         // If authentication fails

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // TypeScript interface for component props
 interface RegisterProps {
-  onRegistration: (userData: { token: string }) => void; // Function to handle post-registration actions
+  onRegistration: (userData: { token: string; userId: string }) => void; // Function to handle post-registration actions
 }
 
 const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
@@ -67,7 +67,7 @@ const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
       const data = await tokenResponse.json();
       localStorage.setItem('token', data.access_token); // Store token in localStorage
       console.log('Registration and token retrieval successful');
-      onRegistration({ token: data.access_token }); // Invoke onRegistration with the token
+      onRegistration({ token: data.access_token, userId: data.user_id }); // Invoke onRegistration with the token
       navigate('/gpt'); // Navigate to the Gpt page
     } catch (error) {
       // Handle errors during the fetch process

@@ -9,10 +9,12 @@ import Login from './Login'; // Importing Login component
 import Register from './Register'; // Importing Register component
 import Gpt from './gpt'; // Importing Gpt component for chatbot interface
 import Nav from './Nav'; // Importing Nav component for navigation bar
+import UpdateUser from './UpdateUser'; // Importing UpdateUser component for updating user details
 
 // TypeScript interface to define the shape of user state
 export interface UserState {
   token: string;
+  userId: string;
 }
 
 function App() {
@@ -22,27 +24,36 @@ function App() {
   // Effect hook to check for token in localStorage on component mount
   useEffect(() => {
     const token = localStorage.getItem('token'); // Retrieve token from localStorage
-    if (token) {
-      setUser({ token }); // If token exists, update the user state
+    const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+    if (token && userId) {
+      setUser({ token, userId }); // Update user state with token and userId
     }
   }, []);
 
   // Handler for successful login
   const handleLogin = (userData: any) => {
     localStorage.setItem('token', userData.token); // Store the token in localStorage
+    localStorage.setItem('userId', userData.userId); // Store the userId in localStorage
     setUser(userData); // Update user state with login details
   };
 
   // Handler for successful registration
-  const handleRegistration = (userData: { token: string }) => {
+  const handleRegistration = (userData: { token: string; userId: string }) => {
     localStorage.setItem('token', userData.token); // Store the token in localStorage
+    localStorage.setItem('userId', userData.userId); // Store the userId in localStorage
     setUser(userData); // Update user state with registration details
   };
 
   // Handler for logout
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from localStorage
+    localStorage.removeItem('userId'); // Remove the userId from localStorage
     setUser(null); // Reset user state to null
+  };
+
+  const handleUpdate = () => {
+    // Refresh user data if needed
+    console.log('User updated successfully');
   };
 
   return (
@@ -68,11 +79,7 @@ function App() {
           <Route
             path="/login"
             element={
-              !user ? (
-                <Login onLogin={handleLogin} login={handleLogin} />
-              ) : (
-                <Navigate to="/gpt" />
-              )
+              !user ? <Login onLogin={handleLogin} /> : <Navigate to="/gpt" />
             }
           />
           <Route
@@ -88,6 +95,16 @@ function App() {
           <Route
             path="/gpt"
             element={user ? <Gpt /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/update-user"
+            element={
+              user ? (
+                <UpdateUser userId={user.userId} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>

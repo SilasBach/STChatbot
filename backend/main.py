@@ -15,10 +15,9 @@ from pymongo import ReturnDocument
 app = FastAPI()
 
 # CORS configuration for frontend communication
-origins = ["http://127.0.0.1:3000"]  # Add frontend app's address
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,7 +70,13 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         )
     # Generate access token
     access_token = create_access_token(data={"sub": user["email"]})
-    return {"access_token": access_token, "token_type": "bearer"}
+    
+    # Return token, token type, and user ID
+    return {
+        "access_token": access_token, 
+        "token_type": "bearer",
+        "user_id": str(user["_id"])  # Convert ObjectId to string
+    }
 
 # Endpoint to create a new user
 @app.post(
