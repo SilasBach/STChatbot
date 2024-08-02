@@ -28,24 +28,16 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 # Add poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"
 
-# Install backend dependencies
-WORKDIR /stchatbot/backend
-RUN poetry install --no-root
-
 # Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
+# Install @go-task/cli globally
+RUN npm install -g @go-task/cli
+
 # Copy frontend files
 COPY ./frontend /frontend
-
-# Install frontend dependencies
-WORKDIR /stchatbot/frontend
-RUN npm install
 
 # Expose port 3000 and 8000
 EXPOSE 3000
 EXPOSE 8000
-
-# Set the default working directory
-WORKDIR /stchatbot

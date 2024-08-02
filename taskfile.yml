@@ -1,19 +1,32 @@
 version: '3'
 
 tasks:
-  frontend:
+  install backend:
+    dir: backend
+    cmds:
+      - poetry install --no-root
+    
+  install frontend:
     dir: frontend
     cmds:
-      - npm install 
+      - npm install
+
+  install:
+    deps:
+      - task: install frontend
+      - task: install backend
+
+  frontend:
+    dir: frontend
+    cmds: 
       - npm run dev
 
   backend:
     dir: backend
     cmds:
-      - poetry install --no-root
       - poetry run uvicorn main:app --reload
-
-  default:
+  
+  start:
     deps:
       - task: frontend
       - task: backend
