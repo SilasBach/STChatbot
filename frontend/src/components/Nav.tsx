@@ -1,36 +1,60 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { UserState } from './App';
+import { UserState } from './App'; // Make sure to import UserState from where it's defined
 
-// TypeScript interface for the component's props
 interface NavProps {
-  user: UserState | null; // User state to determine if a user is logged in
-  logout: () => void; // Function to handle logout
+  user: UserState | null;
+  logout: () => void;
 }
 
 // Nav component for navigation and logout functionality
 function Nav({ user, logout }: NavProps) {
   return (
     // Main container for the navigation section
-    <section className="flex w-full justify-between p-0">
-      {/* Other nav links can go here */}
-      {user ? (
-        <>
-          <NavLink
-            to="/update-user"
-            className="fixed mb-4 mr-4 rounded pl-4 pt-2 text-[18px] transition-colors duration-300 hover:text-blue-600"
-          >
-            Update Profile
-          </NavLink>
-          <button
-            onClick={() => logout()} // Call the logout function when clicked
-            className="fixed mb-4 rounded pl-4 pt-2 text-[18px] transition-colors duration-300 hover:text-blue-600"
-          >
-            Log out
-          </button>
-        </>
-      ) : null}{' '}
-      // If no user is logged in, do not display the logout button
-    </section>
+    <nav className="fixed left-0 right-0 top-0 border border-slate-600 bg-slate-800 bg-opacity-30 p-4 backdrop-blur-sm ">
+      <div className="container mx-auto flex items-center justify-between">
+        <div className="text-xl font-bold text-white">InsurEase</div>
+        <div className="flex items-center">
+          {user ? (
+            <>
+              {user.role === 'admin' ? (
+                <NavLink
+                  to="/admin"
+                  className="mr-4 text-white hover:text-blue-300"
+                >
+                  Admin Dashboard
+                </NavLink>
+              ) : (
+                <>
+                  <NavLink
+                    to="/update-user"
+                    className="mr-4 text-white hover:text-blue-300"
+                  >
+                    Update Profile
+                  </NavLink>
+                  <NavLink
+                    to="/gpt"
+                    className="mr-4 text-white hover:text-blue-300"
+                  >
+                    GPT
+                  </NavLink>
+                </>
+              )}
+              <button
+                onClick={() => logout()}
+                className="text-white hover:text-blue-300"
+              >
+                Log out
+              </button>
+            </>
+          ) : (
+            <NavLink to="/login" className="text-white hover:text-blue-300">
+              Login
+            </NavLink>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 }
 

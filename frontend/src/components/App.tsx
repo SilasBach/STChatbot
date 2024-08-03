@@ -10,11 +10,13 @@ import Register from './Register'; // Importing Register component
 import Gpt from './gpt'; // Importing Gpt component for chatbot interface
 import Nav from './Nav'; // Importing Nav component for navigation bar
 import UpdateUser from './UpdateUser'; // Importing UpdateUser component for updating user details
+import Admin from './Admin';
 
 // TypeScript interface to define the shape of user state
 export interface UserState {
   token: string;
   userId: string;
+  role: string;
 }
 
 function App() {
@@ -25,22 +27,25 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token'); // Retrieve token from localStorage
     const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
-    if (token && userId) {
-      setUser({ token, userId }); // Update user state with token and userId
+    const role = localStorage.getItem('role'); // Retrieve role from localStorage
+    if (token && userId && role) {
+      setUser({ token, userId, role }); // Update user state with token, userId and role
     }
   }, []);
 
   // Handler for successful login
-  const handleLogin = (userData: any) => {
+  const handleLogin = (userData: UserState) => {
     localStorage.setItem('token', userData.token); // Store the token in localStorage
     localStorage.setItem('userId', userData.userId); // Store the userId in localStorage
+    localStorage.setItem('role', userData.role); // Store the role in localStorage
     setUser(userData); // Update user state with login details
   };
 
   // Handler for successful registration
-  const handleRegistration = (userData: { token: string; userId: string }) => {
+  const handleRegistration = (userData: UserState) => {
     localStorage.setItem('token', userData.token); // Store the token in localStorage
     localStorage.setItem('userId', userData.userId); // Store the userId in localStorage
+    localStorage.setItem('role', userData.userId); // Store the role in localStorage
     setUser(userData); // Update user state with registration details
   };
 
@@ -48,12 +53,8 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token from localStorage
     localStorage.removeItem('userId'); // Remove the userId from localStorage
-    setUser(null); // Reset user state to null
-  };
 
-  const handleUpdate = () => {
-    // Refresh user data if needed
-    console.log('User updated successfully');
+    setUser(null); // Reset user state to null
   };
 
   return (
@@ -65,10 +66,9 @@ function App() {
       >
         {/* Navigation bar component */}
         <Nav user={user} logout={handleLogout} />
-        {/* Rest of the content */}
       </div>
       <div
-        className="flex h-[100vh] items-center justify-center bg-cover text-white"
+        className="flex h-[100vh] items-center justify-center bg-cover pt-16 text-white"
         style={{
           backgroundImage: 'url(../src/assets/background3.png)',
           backgroundPosition: 'center',
@@ -101,6 +101,16 @@ function App() {
             element={
               user ? (
                 <UpdateUser userId={user.userId} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              user && user.role === 'admin' ? (
+                <Admin />
               ) : (
                 <Navigate to="/login" />
               )

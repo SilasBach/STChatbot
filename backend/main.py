@@ -71,11 +71,12 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     # Generate access token
     access_token = create_access_token(data={"sub": user["email"]})
     
-    # Return token, token type, and user ID
+    # Return token, token type, user ID and user role
     return {
         "access_token": access_token, 
         "token_type": "bearer",
-        "user_id": str(user["_id"])  # Convert ObjectId to string
+        "user_id": str(user["_id"]),  # Convert ObjectId to string
+        "role": user["role"]
     }
 
 # Endpoint to create a new user
