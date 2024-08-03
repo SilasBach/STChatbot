@@ -30,3 +30,8 @@ tasks:
     deps:
       - task: frontend
       - task: backend
+  
+  stop:
+    cmds:
+      - pkill -f "npm run dev"
+      - pkill -f "uvicorn main:app --reload"
