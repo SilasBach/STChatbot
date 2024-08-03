@@ -6,6 +6,19 @@ interface RegisterProps {
   onRegistration: (userData: { token: string; userId: string }) => void; // Function to handle post-registration actions
 }
 
+const bureauAffiliations = [
+  'Tryg Forsikring',
+  'Topdanmark',
+  'Codan Forsikring',
+  'Alm. Brand',
+  'If Skadeforsikring',
+  'Gjensidige Forsikring',
+  'LB Forsikring',
+  'Lærerstandens Brandforsikring',
+  'GF Forsikring',
+  'Købstædernes Forsikring',
+];
+
 const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
   // State hooks for user inputs
   const [email, setEmail] = useState('');
@@ -125,18 +138,25 @@ const Register: React.FC<RegisterProps> = ({ onRegistration }) => {
             </label>
           </div>
           <div className="relative my-4">
-            <input
-              type="password"
+            <select
               className="peer block w-72 appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-white focus:border-blue-600 focus:text-white focus:outline-none focus:ring-0 dark:focus:border-blue-500"
-              placeholder="!!!Change to dropdown!!! (ex Tryk forsikring)"
               value={bureauAffiliation}
               onChange={(e) => setBureau(e.target.value)}
-            />
+            >
+              <option value="" disabled>
+                Select Bureau Affiliation
+              </option>
+              {bureauAffiliations.map((bureau) => (
+                <option key={bureau} value={bureau} className="text-black">
+                  {bureau}
+                </option>
+              ))}
+            </select>
             <label
               htmlFor=""
               className="top-3 -z-10 origin-[0] scale-75 transform text-sm duration-300 peer-focus:left-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-blue-600 peer-focus:dark:text-blue-500"
             >
-              Selvskab
+              Bureau Affiliation
             </label>
           </div>
           <button
